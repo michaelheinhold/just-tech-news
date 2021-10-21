@@ -81,10 +81,16 @@ router.post('/', (req, res) => {
 });
 
 router.put('/upvote', (req, res) => {
-    //custom static method created in models/Post.js
-    Post.upvote(req.body, { Vote })
+    if(req.session) {
+        //custom static method created in models/Post.js
+        //pass session id along with all destructured properties on req.body
+        Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
         .then(dbPostData => res.json(dbPostData))
         .catch(err => res.json(err));
+    } else {
+        res.json({ message: 'You are not logged in! Please log in.' })
+    }
+    
 });
 
 router.put('/:id', (req, res) => {
