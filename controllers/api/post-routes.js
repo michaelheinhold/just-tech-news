@@ -88,7 +88,7 @@ router.put('/upvote', (req, res) => {
         .then(dbPostData => res.json(dbPostData))
         .catch(err => res.json(err));
     } else {
-        res.json({ message: 'You are not logged in! Please log in.' })
+        res.json({ message: 'You are not logged in! Please log in.', loggedIn: false })
     }
     
 });
